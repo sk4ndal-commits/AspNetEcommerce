@@ -1,3 +1,4 @@
+using AspNetEcommerce.API.dto;
 using AspNetEcommerce.API.entities;
 using AspNetEcommerce.API.repositories;
 
@@ -12,7 +13,7 @@ public class ProductService : IProductService
         _productRepository = productRepository;
     }
     
-    public async Task<IEnumerable<Product>> GetAllAsync()
+    public async Task<IEnumerable<Product>> GetAllAsync(PageRequest pageRequest)
     {
         return await _productRepository.GetAllAsync();
     }

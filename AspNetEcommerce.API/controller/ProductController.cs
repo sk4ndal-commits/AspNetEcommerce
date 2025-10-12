@@ -1,3 +1,4 @@
+using AspNetEcommerce.API.dto;
 using AspNetEcommerce.API.entities;
 using AspNetEcommerce.API.services;
 using Microsoft.AspNetCore.Mvc;
@@ -16,9 +17,11 @@ public class ProductController : ControllerBase
     }
 
     [HttpGet]
-    public async Task<ActionResult<IEnumerable<Product>>> GetAllAsync()
+    public async Task<ActionResult<PageResponse<Product>>> GetAllAsync(
+        [FromQuery] PageRequest pageRequest)
     {
-        var products = await _productService.GetAllAsync();
+        var products = 
+            await _productService.GetAllAsync(pageRequest);
         return Ok(products);
     }
 
