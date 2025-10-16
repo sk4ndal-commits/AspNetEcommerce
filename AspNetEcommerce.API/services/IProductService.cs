@@ -3,6 +3,9 @@ using AspNetEcommerce.API.entities;
 
 namespace AspNetEcommerce.API.services;
 
+/// <summary>
+/// Defines contract for product-related operations.
+/// </summary>
 public interface IProductService
 {
     Task<IEnumerable<Product>> GetAllAsync(PageRequest pageRequest);

@@ -5,6 +5,11 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace AspNetEcommerce.API.controller;
 
+/// <summary>
+/// REST API controller for managing product-related operations.
+/// Provides endpoints to retrieve products, search by name, filter by category,
+/// and implement pagination.
+/// </summary>
 [ApiController]
 [Route("api/[controller]")]
 public class ProductController : ControllerBase
@@ -22,7 +27,13 @@ public class ProductController : ControllerBase
     {
         var products = await _productService
             .GetAllAsync(pageRequest);
-        return Ok(products);
+        var productList = products.ToList();
+        
+        return Ok(new PageResponse<Product>(
+            productList,
+            productList.Count,
+            pageRequest.PageNumber,
+            pageRequest.PageSize));
     }
 
 
@@ -40,8 +51,13 @@ public class ProductController : ControllerBase
     {
         var products = await _productService
             .GetByCategoryIdAsync(categoryId, pageRequest);
+        var productList = products.ToList();
 
-        return Ok(products);
+        return Ok(new PageResponse<Product>(
+            productList,
+            productList.Count,
+            pageRequest.PageNumber,
+            pageRequest.PageSize));
     }
 
     [HttpGet("search")]
@@ -52,6 +68,12 @@ public class ProductController : ControllerBase
     {
         var products = await _productService
             .GetByNameContainingAsync(searchTerm, pageRequest);
-        return Ok(products);
+        var productList = products.ToList();
+        
+        return Ok(new PageResponse<Product>(
+            productList,
+            productList.Count,
+            pageRequest.PageNumber,
+            pageRequest.PageSize));
     }
 }

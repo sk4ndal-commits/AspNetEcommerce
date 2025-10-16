@@ -6,6 +6,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace AspNetEcommerce.API.repositories;
 
+/// <inheritdoc cref="IProductRepository"/>
 public class ProductRepository : IProductRepository
 {
     private readonly EcommerceDbContext _dbContext;

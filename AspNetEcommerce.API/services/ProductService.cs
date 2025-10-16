@@ -4,6 +4,7 @@ using AspNetEcommerce.API.repositories;
 
 namespace AspNetEcommerce.API.services;
 
+/// <inheritdoc cref="IProductService"/>
 public class ProductService : IProductService
 {
     private readonly IProductRepository _productRepository;

@@ -3,6 +3,9 @@ using AspNetEcommerce.API.entities;
 
 namespace AspNetEcommerce.API.repositories;
 
+/// <summary>
+/// Defines operations for retrieving and managing product data in the repository.
+/// </summary>
 public interface IProductRepository
 {
     Task<IEnumerable<Product>> GetAllAsync(PageRequest pageRequest);
