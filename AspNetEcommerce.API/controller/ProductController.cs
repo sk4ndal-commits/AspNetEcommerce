@@ -20,8 +20,8 @@ public class ProductController : ControllerBase
     public async Task<ActionResult<PageResponse<Product>>> GetAllAsync(
         [FromQuery] PageRequest pageRequest)
     {
-        var products = 
-            await _productService.GetAllAsync(pageRequest);
+        var products = await _productService
+            .GetAllAsync(pageRequest);
         return Ok(products);
     }
 
@@ -30,26 +30,28 @@ public class ProductController : ControllerBase
     public async Task<ActionResult<Product>> GetByIdAsync(long id)
     {
         var product = await _productService.GetByIdAsync(id);
-        if (product == null) return NotFound();
-        return Ok(product);
+        return product is not null ? Ok(product) : NotFound();
     }
 
     [HttpGet("category/{categoryId:long}")]
-    public async Task<ActionResult<Product>> GetByCategoryIdAsync(
+    public async Task<ActionResult<IEnumerable<Product>>> GetByCategoryIdAsync(
+        [FromQuery] PageRequest pageRequest,
         long categoryId)
     {
-        var product = await _productService.GetByCategoryIdAsync(categoryId);
-        if (product == null) return NotFound();
-        return Ok(product);
+        var products = await _productService
+            .GetByCategoryIdAsync(categoryId, pageRequest);
+
+        return Ok(products);
     }
 
     [HttpGet("search")]
     public async Task<ActionResult<IEnumerable<Product>>>
         GetByNameContainingAsync(
-            [FromQuery] string searchTerm)
+            [FromQuery] string searchTerm,
+            [FromQuery] PageRequest pageRequest)
     {
-        var products =
-            await _productService.GetByNameContainingAsync(searchTerm);
+        var products = await _productService
+            .GetByNameContainingAsync(searchTerm, pageRequest);
         return Ok(products);
     }
 }

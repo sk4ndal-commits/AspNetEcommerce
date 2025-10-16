@@ -12,10 +12,10 @@ public class ProductService : IProductService
     {
         _productRepository = productRepository;
     }
-    
+
     public async Task<IEnumerable<Product>> GetAllAsync(PageRequest pageRequest)
     {
-        return await _productRepository.GetAllAsync();
+        return await _productRepository.GetAllAsync(pageRequest);
     }
 
     public Task<Product?> GetByIdAsync(long id)
@@ -23,13 +23,16 @@ public class ProductService : IProductService
         return _productRepository.GetByIdAsync(id);
     }
 
-    public Task<Product?> GetByCategoryIdAsync(long categoryId)
+    public Task<IEnumerable<Product>> GetByCategoryIdAsync(long categoryId,
+        PageRequest pageRequest)
     {
-        return _productRepository.GetByCategoryIdAsync(categoryId);
+        return _productRepository.GetByCategoryIdAsync(categoryId, pageRequest);
     }
 
-    public Task<IEnumerable<Product>> GetByNameContainingAsync(string searchTerm)
+    public Task<IEnumerable<Product>> GetByNameContainingAsync(
+        string searchTerm, PageRequest pageRequest)
     {
-        return _productRepository.GetByNameContainingAsync(searchTerm);
+        return _productRepository.GetByNameContainingAsync(searchTerm,
+            pageRequest);
     }
 }

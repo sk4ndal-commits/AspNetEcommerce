@@ -7,6 +7,10 @@ public interface IProductService
 {
     Task<IEnumerable<Product>> GetAllAsync(PageRequest pageRequest);
     Task<Product?> GetByIdAsync(long id);
-    Task<Product?> GetByCategoryIdAsync(long categoryId);
-    Task<IEnumerable<Product>> GetByNameContainingAsync(string searchTerm);
+
+    Task<IEnumerable<Product>> GetByCategoryIdAsync(long categoryId,
+        PageRequest pageRequest);
+
+    Task<IEnumerable<Product>> GetByNameContainingAsync(string searchTerm,
+        PageRequest pageRequest);
 }
