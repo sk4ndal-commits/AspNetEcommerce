@@ -14,9 +14,11 @@ public class ProductService : IProductService
         _productRepository = productRepository;
     }
 
-    public async Task<IEnumerable<Product>> GetAllAsync(PageRequest pageRequest)
+    public async Task<PageResponse<Product>> GetAllAsync(PageRequest pageRequest)
     {
-        return await _productRepository.GetAllAsync(pageRequest);
+        var items = await _productRepository.GetAllAsync(pageRequest);
+        var total = await _productRepository.CountAllAsync();
+        return new PageResponse<Product>(items, total, pageRequest.PageNumber, pageRequest.PageSize);
     }
 
     public Task<Product?> GetByIdAsync(long id)
@@ -24,16 +26,19 @@ public class ProductService : IProductService
         return _productRepository.GetByIdAsync(id);
     }
 
-    public Task<IEnumerable<Product>> GetByCategoryIdAsync(long categoryId,
+    public async Task<PageResponse<Product>> GetByCategoryIdAsync(long categoryId,
         PageRequest pageRequest)
     {
-        return _productRepository.GetByCategoryIdAsync(categoryId, pageRequest);
+        var items = await _productRepository.GetByCategoryIdAsync(categoryId, pageRequest);
+        var total = await _productRepository.CountByCategoryIdAsync(categoryId);
+        return new PageResponse<Product>(items, total, pageRequest.PageNumber, pageRequest.PageSize);
     }
 
-    public Task<IEnumerable<Product>> GetByNameContainingAsync(
+    public async Task<PageResponse<Product>> GetByNameContainingAsync(
         string searchTerm, PageRequest pageRequest)
     {
-        return _productRepository.GetByNameContainingAsync(searchTerm,
-            pageRequest);
+        var items = await _productRepository.GetByNameContainingAsync(searchTerm, pageRequest);
+        var total = await _productRepository.CountByNameContainingAsync(searchTerm);
+        return new PageResponse<Product>(items, total, pageRequest.PageNumber, pageRequest.PageSize);
     }
 }

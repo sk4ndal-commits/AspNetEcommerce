@@ -8,12 +8,12 @@ namespace AspNetEcommerce.API.services;
 /// </summary>
 public interface IProductService
 {
-    Task<IEnumerable<Product>> GetAllAsync(PageRequest pageRequest);
+    Task<PageResponse<Product>> GetAllAsync(PageRequest pageRequest);
     Task<Product?> GetByIdAsync(long id);
 
-    Task<IEnumerable<Product>> GetByCategoryIdAsync(long categoryId,
+    Task<PageResponse<Product>> GetByCategoryIdAsync(long categoryId,
         PageRequest pageRequest);
 
-    Task<IEnumerable<Product>> GetByNameContainingAsync(string searchTerm,
+    Task<PageResponse<Product>> GetByNameContainingAsync(string searchTerm,
         PageRequest pageRequest);
 }

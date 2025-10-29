@@ -18,12 +18,14 @@ public class ProductRepository : IProductRepository
 
     public async Task<IEnumerable<Product>> GetAllAsync(PageRequest pageRequest)
     {
-        var skip = (pageRequest.PageNumber - 1) * pageRequest.PageSize;
-        var take = pageRequest.PageSize;
-
         return await _dbContext.Products
             .ApplyPagination(pageRequest)
             .ToListAsync();
+    }
+
+    public async Task<int> CountAllAsync()
+    {
+        return await _dbContext.Products.CountAsync();
     }
 
     public async Task<Product?> GetByIdAsync(long id)
@@ -40,6 +42,13 @@ public class ProductRepository : IProductRepository
             .ToListAsync();
     }
 
+    public async Task<int> CountByCategoryIdAsync(long categoryId)
+    {
+        return await _dbContext.Products
+            .Where(p => p.CategoryId == categoryId)
+            .CountAsync();
+    }
+
     public async Task<IEnumerable<Product>> GetByNameContainingAsync(
         string searchTerm, PageRequest pageRequest)
     {
@@ -47,5 +56,12 @@ public class ProductRepository : IProductRepository
             .Where(p => p.Name.Contains(searchTerm))
             .ApplyPagination(pageRequest)
             .ToListAsync();
+    }
+
+    public async Task<int> CountByNameContainingAsync(string searchTerm)
+    {
+        return await _dbContext.Products
+            .Where(p => p.Name.Contains(searchTerm))
+            .CountAsync();
     }
 }

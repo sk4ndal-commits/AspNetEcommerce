@@ -25,15 +25,8 @@ public class ProductController : ControllerBase
     public async Task<ActionResult<PageResponse<Product>>> GetAllAsync(
         [FromQuery] PageRequest pageRequest)
     {
-        var products = await _productService
-            .GetAllAsync(pageRequest);
-        var productList = products.ToList();
-        
-        return Ok(new PageResponse<Product>(
-            productList,
-            productList.Count,
-            pageRequest.PageNumber,
-            pageRequest.PageSize));
+        var page = await _productService.GetAllAsync(pageRequest);
+        return Ok(page);
     }
 
 
@@ -45,35 +38,23 @@ public class ProductController : ControllerBase
     }
 
     [HttpGet("category/{categoryId:long}")]
-    public async Task<ActionResult<IEnumerable<Product>>> GetByCategoryIdAsync(
+    public async Task<ActionResult<PageResponse<Product>>> GetByCategoryIdAsync(
         [FromQuery] PageRequest pageRequest,
         long categoryId)
     {
-        var products = await _productService
+        var page = await _productService
             .GetByCategoryIdAsync(categoryId, pageRequest);
-        var productList = products.ToList();
-
-        return Ok(new PageResponse<Product>(
-            productList,
-            productList.Count,
-            pageRequest.PageNumber,
-            pageRequest.PageSize));
+        return Ok(page);
     }
 
     [HttpGet("search")]
-    public async Task<ActionResult<IEnumerable<Product>>>
+    public async Task<ActionResult<PageResponse<Product>>>
         GetByNameContainingAsync(
             [FromQuery] string searchTerm,
             [FromQuery] PageRequest pageRequest)
     {
-        var products = await _productService
+        var page = await _productService
             .GetByNameContainingAsync(searchTerm, pageRequest);
-        var productList = products.ToList();
-        
-        return Ok(new PageResponse<Product>(
-            productList,
-            productList.Count,
-            pageRequest.PageNumber,
-            pageRequest.PageSize));
+        return Ok(page);
     }
 }

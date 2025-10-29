@@ -1,7 +1,7 @@
 using AspNetEcommerce.API.db;
 using AspNetEcommerce.API.entities;
 
-namespace AspNetEcommerce.API.data;
+namespace AspNetEcommerce.API.infra;
 
 public static class DatabaseSeeder
 {

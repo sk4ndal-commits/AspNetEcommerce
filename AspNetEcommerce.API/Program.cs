@@ -1,5 +1,5 @@
-using AspNetEcommerce.API.data;
 using AspNetEcommerce.API.db;
+using AspNetEcommerce.API.infra;
 using AspNetEcommerce.API.repositories;
 using AspNetEcommerce.API.services;
 using Microsoft.EntityFrameworkCore;
